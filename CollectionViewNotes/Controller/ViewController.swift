@@ -8,13 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    var columnsItems: CGFloat = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+            columnsItems = 4
+        } else {
+            print("Portrait")
+            columnsItems = 1
+        }
+        collectionView.reloadData()
     }
 
     let reuseIdentifier = "cell" // also enter this string as the cell identifier in the storyboard
@@ -41,8 +54,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return cell
     }
     
-    // MARK: - UICollectionViewDelegate protocol
+    // MARK: - UICollectionViewDelegateFlowLayout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+           let padding: CGFloat =  50
+           let collectionViewSize = collectionView.frame.size.width - padding
+
+           return CGSize(width: collectionViewSize/columnsItems, height: collectionViewSize/columnsItems)
+       }
+
     
+    // MARK: - UICollectionViewDelegate protocol
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // handle tap events
         print("You selected cell #\(indexPath.item)!")
