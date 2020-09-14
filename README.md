@@ -69,5 +69,28 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 ```
 
+## Control de columnas
+
+- Añadir UICollectionViewDelegateFlowLayout
+```swift
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {...
+```
+```swift
+func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+           let padding: CGFloat =  50
+           let collectionViewSize = collectionView.frame.size.width - padding
+
+           return CGSize(width: collectionViewSize/columnsItems, height: collectionViewSize/columnsItems)
+       }
+```
+
 ## Referencias:
+-Simple collection view
+
 https://stackoverflow.com/questions/31735228/how-to-make-a-simple-collection-view-with-swift
+
+-Column settings
+
+https://stackoverflow.com/questions/38394810/display-just-two-columns-with-multiple-rows-in-a-collectionview-using-storyboar
+
+
